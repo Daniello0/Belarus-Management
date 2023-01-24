@@ -1,0 +1,10 @@
+.Vitebsk {
+    animation: vitebskAnim;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+    animation-timing-function: ease;
+}
+@keyframes vitebskAnim {
+    from {filter: brightness(70%)}
+    to {filter: brightness(100%)}
+}

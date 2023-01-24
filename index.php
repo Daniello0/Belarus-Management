@@ -1,2 +1,2 @@
 <?php
-header("Location: /game/view/View.html");
+header("Location: /game/view/View.php");
