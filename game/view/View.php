@@ -1,9 +1,15 @@
 <html lang="ru">
 <head>
-    <title>game</title>
+    <title>project</title>
     <meta charset="utf-8">
 </head>
 <body>
+<?php
+require "MainCSS.php";
+?>
+<style>
+
+</style>
 <div class="MAP">
     <a href="/game/model/vitebsk.php"><svg class="Vitebsk" version="1.0" xmlns="http://www.w3.org/2000/svg"
          width="352.000000pt" height="232.000000pt" viewBox="0 0 352.000000 232.000000"
@@ -275,12 +281,9 @@ l7 57 -32 0 c-41 0 -48 21 -23 62 18 29 20 45 15 133 -5 91 -3 107 22 173 14
 </div>
 <div class="Changes">
     <h1>Изменения</h1>
-    <input type="radio" name="changes" id="vvp">ВВП<br />
-    <input type="radio" name="changes" id="unemployment level">Уровень безработицы<br />
-    <input type="radio" name="changes" id="national wealth">Национальное богатство<br />
-    <input type="radio" name="changes" id="nalog">Налог<br />
-    <input type="radio" name="changes" id="population">Население<br />
-    <input type="radio" name="changes" id="foreign trade">Объем внешней торговли<br />
+    <input type="radio" name="changes" id="vrp">ВРП(млн. руб.)<br />
+    <input type="radio" name="changes" id="vrp_for_population">ВРП на душу населения(руб.)<br />
+    <input type="radio" name="changes" id="population">Трудоспособное население(чел.)<br />
     <b>Изменить на:</b><input type="text" name="value">
 </div>
 <div class="StatREG">
@@ -298,135 +301,68 @@ l7 57 -32 0 c-41 0 -48 21 -23 62 18 29 20 45 15 133 -5 91 -3 107 22 173 14
     <form method="get">
         <input type="submit" class="RebootButton" name="Reboot" value="Перезапустить">
     </form>
+    <form action="/game/view/View.php">
+        <input type="submit" value="Показать карту" class="ShowMap">
+    </form>
 </div>
+<?php
+set_include_path("C:/Belarus-Management/");
+use StatBrest as Brest;
+use StatGomel as Gomel;
+use StatGrodno as Grodno;
+use StatMinsk as Minsk;
+use StatMogilev as Mogilev;
+use StatVitebsk as Vitebsk;
+class vrp
+{
+    public static function rgbToHex($red, $green, $blue, $alpha = null)
+    {
+        $result = '#';
+        foreach (array($red, $green, $blue) as $row) {
+            $result .= str_pad(dechex($row), 2, '0', STR_PAD_LEFT);
+        }
+
+        if (!is_null($alpha)) {
+            $alpha = floor(255 - (255 * ($alpha / 127)));
+            $result .= str_pad(dechex($alpha), 2, '0', STR_PAD_LEFT);
+        }
+
+        return $result;
+    }
+    public static function Color()
+    {
+        require_once "game/model/minsk.php";
+        require_once "game/model/mogilev.php";
+        require_once "game/model/gomel.php";
+        require_once "game/model/grodno.php";
+        require_once "game/model/brest.php";
+        require_once "game/model/vitebsk.php";
+        $all = [Brest::$vrp, Gomel::$vrp, Grodno::$vrp, Minsk::$vrp, Mogilev::$vrp, Vitebsk::$vrp];
+        $max = max($all);
+        $RatioBrest = (Brest::$vrp)/$max;
+        $RatioGomel = (Gomel::$vrp)/$max;
+        $RatioGrodno = (Grodno::$vrp)/$max;
+        $RatioMinsk = (Minsk::$vrp)/$max;
+        $RatioMogilev = (Mogilev::$vrp)/$max;
+        $RatioVitebsk = (Vitebsk::$vrp)/$max;
+        $newRatioBrest = $RatioBrest * 255;
+        $newRatioGomel = $RatioGomel * 255;
+        $newRatioGrodno = $RatioGrodno * 255;
+        $newRatioMinsk = $RatioMinsk * 255;
+        $newRatioMogilev = $RatioMogilev * 255;
+        $newRatioVitebsk = $RatioVitebsk * 255;
+        $colBrest = self::rgbToHex(255 - (int)$newRatioBrest, (int)$newRatioBrest, 0);
+        $colGomel = self::rgbToHex(255 - (int)$newRatioGomel, (int)$newRatioGomel, 0);
+        $colGrodno = self::rgbToHex(255 - (int)$newRatioGrodno, (int)$newRatioGrodno, 0);
+        $colMinsk = self::rgbToHex(255 - (int)$newRatioMinsk, (int)$newRatioMinsk, 0);
+        $colMogilev = self::rgbToHex(255 - (int)$newRatioMogilev, (int)$newRatioMogilev, 0);
+        $colVitebsk = self::rgbToHex(255 - (int)$newRatioVitebsk, (int)$newRatioVitebsk, 0);
+        $result = [$colBrest, $colVitebsk, $colGomel, $colGrodno, $colMinsk, $colMogilev];
+        return $result;
+    }
+}
+$vrp = new vrp();
+$color = $vrp::Color();
+?>
 </body>
-<style>
-    .ApplyButton {
-        height: 70px;
-        width: 200px;
-        font-size: 17px;
-    }
-    .RebootButton {
-        height: 70px;
-        width: 200px;
-        font-size: 25px;
-    }
-    .Submit {
-        position: absolute;
-        bottom: 120px;
-        left: 90px;
-    }
-    .TA_LastChanges {
-        width: 451px;
-        height: 280px;
-    }
-    .LastChanges {
-        position: absolute;
-        left: 1350px;
-        bottom: 100px;
-        width: 460px;
-        height: 360px;
-    }
-    .TA_StatREG {
-        width: 300px;
-        height: 350px;
-    }
-    .StatREG {
-        position: absolute;
-        left: 1500px;
-        bottom: 498px;
-        width: 310px;
-        height: 410px;
-    }
-    .Changes {
-        position: absolute;
-        left: 1200px;
-        bottom: 705px;
-        width: 300px;
-        height: 206px;
-    }
-    .TA_StatRB {
-        width: 390px;
-        height: 450px;
-    }
-    .StatRB {
-        position: absolute;
-        bottom: 360px;
-        left: 25px;
-        width: 400px;
-        height: 570px;
-    }
-    .Vitebsk {
-        position: absolute;
-        fill: green;
-        left: 700px;
-        bottom: 592px;
-    }
-    .Brest {
-        position: absolute;
-        fill: green;
-        left: 388px;
-        bottom: 161px;
-    }
-    .Gomel {
-        position: absolute;
-        fill: green;
-        left: 794px;
-        bottom: 111px;
-    }
-    .Grodno {
-        position: absolute;
-        fill: green;
-        left: 437px;
-        bottom: 357px;
-    }
-    .Minsk {
-        position: absolute;
-        fill: green;
-        left: 680px;
-        bottom: 292px;
-    }
-    .Mogilev {
-        position: absolute;
-        fill: green;
-        left: 876px;
-        bottom: 338px;
-    }
-    .VitebskUpdate:hover {
-        filter: contrast(70%);
-    }
-    .MogilevUpdate:hover {
-        filter: contrast(70%);
-    }
-    .GomelUpdate:hover {
-        filter: contrast(70%);
-    }
-    .BrestUpdate:hover {
-        filter: contrast(70%);
-    }
-    .MinskUpdate:hover {
-        filter: contrast(70%);
-    }
-    .GrodnoUpdate:hover {
-        filter: contrast(70%);
-    }
-    .VitebskUpdate {
-        position: relative;
-    }
-    .MogilevUpdate {
-        position: relative;
-    }
-    .MinskUpdate {
-        position: relative;
-    }
-    .GomelUpdate {
-        position: relative;
-    }
-    .GrodnoUpdate {
-        position: relative;
-    }
-    .BrestUpdate {
-        position: relative;
-    }
-</style>
 </html>
