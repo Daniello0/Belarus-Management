@@ -10,9 +10,9 @@ if ($_SERVER['REQUEST_URI'] == "/game/model/brest.php") {
 }
 class StatBrest
 {
-    public static $vrp = 18488.3;
-    public static $vrp_for_population = 13890.1;
-    public static $working_population = 198144;
+    static $vrp = 18488.3;
+    static $vrp_for_population = 13890.1;
+    static $working_population = 198144;
 }
 $VRP = new vrp();
 $color = $VRP::Color();

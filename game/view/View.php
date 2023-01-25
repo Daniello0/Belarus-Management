@@ -281,9 +281,9 @@ l7 57 -32 0 c-41 0 -48 21 -23 62 18 29 20 45 15 133 -5 91 -3 107 22 173 14
 </div>
 <div class="Changes">
     <h1>Изменения</h1>
-    <input type="radio" name="changes" id="vrp">ВРП(млн. руб.)<br />
-    <input type="radio" name="changes" id="vrp_for_population">ВРП на душу населения(руб.)<br />
-    <input type="radio" name="changes" id="population">Трудоспособное население(чел.)<br />
+    <input type="radio" name="changes" id="vrpID">ВРП(млн. руб.)<br />
+    <input type="radio" name="changes" id="vrp_for_populationID">ВРП на душу населения(руб.)<br />
+    <input type="radio" name="changes" id="populationID">Трудоспособное население(чел.)<br />
     <b>Изменить на:</b><input type="text" name="value">
 </div>
 <div class="StatREG">
@@ -296,13 +296,16 @@ l7 57 -32 0 c-41 0 -48 21 -23 62 18 29 20 45 15 133 -5 91 -3 107 22 173 14
 </div>
 <div class="Submit">
     <form method="post">
-        <input type="submit" class="ApplyButton" name="Apply" value="Применить изменения">
+        <input type="submit" class="ApplyChanges" name="ApplyChanges" value="Применить изменения">
     </form>
     <form method="get">
         <input type="submit" class="RebootButton" name="Reboot" value="Перезапустить">
     </form>
     <form action="/game/view/View.php">
         <input type="submit" value="Показать карту" class="ShowMap">
+    </form>
+    <form method="post">
+        <input type="submit" value="Применить сортировку" name="ApplySort" class="ApplySort">
     </form>
 </div>
 <?php
@@ -313,6 +316,10 @@ use StatGrodno as Grodno;
 use StatMinsk as Minsk;
 use StatMogilev as Mogilev;
 use StatVitebsk as Vitebsk;
+if (@$_REQUEST['ApplySort']) {
+    echo "YES ";
+    if (@$_REQUEST['vrpID']) echo "vrp on";
+}
 class vrp
 {
     public static function rgbToHex($red, $green, $blue, $alpha = null)
@@ -361,8 +368,102 @@ class vrp
         return $result;
     }
 }
-$vrp = new vrp();
-$color = $vrp::Color();
+class vrpForPopulationCLASS
+{
+    public static function rgbToHex($red, $green, $blue, $alpha = null)
+    {
+        $result = '#';
+        foreach (array($red, $green, $blue) as $row) {
+            $result .= str_pad(dechex($row), 2, '0', STR_PAD_LEFT);
+        }
+
+        if (!is_null($alpha)) {
+            $alpha = floor(255 - (255 * ($alpha / 127)));
+            $result .= str_pad(dechex($alpha), 2, '0', STR_PAD_LEFT);
+        }
+
+        return $result;
+    }
+    public static function Color()
+    {
+        require_once "game/model/minsk.php";
+        require_once "game/model/mogilev.php";
+        require_once "game/model/gomel.php";
+        require_once "game/model/grodno.php";
+        require_once "game/model/brest.php";
+        require_once "game/model/vitebsk.php";
+        $all = [Brest::$vrp_for_population, Vitebsk::$vrp_for_population, Gomel::$vrp_for_population, Grodno::$vrp_for_population, Minsk::$vrp_for_population, Mogilev::$vrp_for_population];
+        $max = max($all);
+        $RatioBrest = (Brest::$vrp_for_population)/$max;
+        $RatioGomel = (Gomel::$vrp_for_population)/$max;
+        $RatioGrodno = (Grodno::$vrp_for_population)/$max;
+        $RatioMinsk = (Minsk::$vrp_for_population)/$max;
+        $RatioMogilev = (Mogilev::$vrp_for_population)/$max;
+        $RatioVitebsk = (Vitebsk::$vrp_for_population)/$max;
+        $newRatioBrest = $RatioBrest * 255;
+        $newRatioGomel = $RatioGomel * 255;
+        $newRatioGrodno = $RatioGrodno * 255;
+        $newRatioMinsk = $RatioMinsk * 255;
+        $newRatioMogilev = $RatioMogilev * 255;
+        $newRatioVitebsk = $RatioVitebsk * 255;
+        $colBrest = self::rgbToHex(255 - (int)$newRatioBrest, (int)$newRatioBrest, 0);
+        $colGomel = self::rgbToHex(255 - (int)$newRatioGomel, (int)$newRatioGomel, 0);
+        $colGrodno = self::rgbToHex(255 - (int)$newRatioGrodno, (int)$newRatioGrodno, 0);
+        $colMinsk = self::rgbToHex(255 - (int)$newRatioMinsk, (int)$newRatioMinsk, 0);
+        $colMogilev = self::rgbToHex(255 - (int)$newRatioMogilev, (int)$newRatioMogilev, 0);
+        $colVitebsk = self::rgbToHex(255 - (int)$newRatioVitebsk, (int)$newRatioVitebsk, 0);
+        $result = [$colBrest, $colVitebsk, $colGomel, $colGrodno, $colMinsk, $colMogilev];
+        return $result;
+    }
+}
+class workingPopulationCLASS
+{
+    public static function rgbToHex($red, $green, $blue, $alpha = null)
+    {
+        $result = '#';
+        foreach (array($red, $green, $blue) as $row) {
+            $result .= str_pad(dechex($row), 2, '0', STR_PAD_LEFT);
+        }
+
+        if (!is_null($alpha)) {
+            $alpha = floor(255 - (255 * ($alpha / 127)));
+            $result .= str_pad(dechex($alpha), 2, '0', STR_PAD_LEFT);
+        }
+
+        return $result;
+    }
+    public static function Color()
+    {
+        require_once "game/model/minsk.php";
+        require_once "game/model/mogilev.php";
+        require_once "game/model/gomel.php";
+        require_once "game/model/grodno.php";
+        require_once "game/model/brest.php";
+        require_once "game/model/vitebsk.php";
+        $all = [Brest::$working_population, Vitebsk::$working_population, Gomel::$working_population, Grodno::$working_population, Minsk::$working_population, Mogilev::$working_population];
+        $max = max($all);
+        $RatioBrest = (Brest::$working_population)/$max;
+        $RatioGomel = (Gomel::$working_population)/$max;
+        $RatioGrodno = (Grodno::$working_population)/$max;
+        $RatioMinsk = (Minsk::$working_population)/$max;
+        $RatioMogilev = (Mogilev::$working_population)/$max;
+        $RatioVitebsk = (Vitebsk::$working_population)/$max;
+        $newRatioBrest = $RatioBrest * 255;
+        $newRatioGomel = $RatioGomel * 255;
+        $newRatioGrodno = $RatioGrodno * 255;
+        $newRatioMinsk = $RatioMinsk * 255;
+        $newRatioMogilev = $RatioMogilev * 255;
+        $newRatioVitebsk = $RatioVitebsk * 255;
+        $colBrest = self::rgbToHex(255 - (int)$newRatioBrest, (int)$newRatioBrest, 0);
+        $colGomel = self::rgbToHex(255 - (int)$newRatioGomel, (int)$newRatioGomel, 0);
+        $colGrodno = self::rgbToHex(255 - (int)$newRatioGrodno, (int)$newRatioGrodno, 0);
+        $colMinsk = self::rgbToHex(255 - (int)$newRatioMinsk, (int)$newRatioMinsk, 0);
+        $colMogilev = self::rgbToHex(255 - (int)$newRatioMogilev, (int)$newRatioMogilev, 0);
+        $colVitebsk = self::rgbToHex(255 - (int)$newRatioVitebsk, (int)$newRatioVitebsk, 0);
+        $result = [$colBrest, $colVitebsk, $colGomel, $colGrodno, $colMinsk, $colMogilev];
+        return $result;
+    }
+}
 ?>
 </body>
 </html>

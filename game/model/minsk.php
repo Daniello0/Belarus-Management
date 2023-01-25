@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_URI'] == "/game/model/minsk.php") {
 class StatMinsk
 {
     static $vrp = 32128.7;
-    static $vrp_for_population = 21863.0;
+    static $vrp_for_population = 21863;
     static $working_population = 474245;
 }
 $VRP = new vrp();
