@@ -3,6 +3,10 @@ set_include_path("C:/Belarus-Management/");
 require_once "game/view/View.php";
 $vrp = new vrp();
 $color = $vrp::Color();
+$vrp_for_population = new vrpForPopulationCLASS();
+$color_2 = $vrp_for_population::Color();
+$working_population = new workingPopulationCLASS();
+$color_3 = $working_population::Color();
 ?>
 <style>
 .ShowMap {
@@ -13,10 +17,21 @@ $color = $vrp::Color();
     bottom: 600px;
     font-size: 20px;
 }
-.ApplyButton {
-    height: 70px;
-    width: 200px;
-    font-size: 17px;
+.ApplySort {
+    position: absolute;
+    width: 133px;
+    height: 47px;
+    font-size: 11px;
+    left: 1110px;
+    bottom: 570px;
+}
+.ApplyChanges {
+    position: absolute;
+    height: 47px;
+    width: 133px;
+    font-size: 11px;
+    left: 1252px;
+    bottom: 570px;
 }
 .RebootButton {
     height: 70px;
@@ -70,37 +85,37 @@ $color = $vrp::Color();
 }
 .Vitebsk {
     position: absolute;
-    fill: <?=$color[1]?>;
+    fill: red;
     left: 700px;
     bottom: 592px;
 }
 .Brest {
     position: absolute;
-    fill: <?=$color[0]?>;
+    fill: red;
     left: 388px;
     bottom: 161px;
 }
 .Gomel {
     position: absolute;
-    fill: <?=$color[2]?>;
+    fill: <?=$color_3[2]?>;
     left: 794px;
     bottom: 111px;
 }
 .Grodno {
     position: absolute;
-    fill: <?=$color[3]?>;
+    fill: <?=$color_3[3]?>;
     left: 437px;
     bottom: 357px;
 }
 .Minsk {
     position: absolute;
-    fill: <?=$color[4]?>;
+    fill: <?=$color_3[4]?>;
     left: 680px;
     bottom: 292px;
 }
 .Mogilev {
     position: absolute;
-    fill: <?=$color[5]?>;
+    fill: <?=$color_3[5]?>;
     left: 876px;
     bottom: 338px;
 }
