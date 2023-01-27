@@ -5,6 +5,6 @@
     animation-timing-function: ease;
 }
 @keyframes vitebskAnim {
-    from {filter: brightness(70%)}
+    from {filter: brightness(50%)}
     to {filter: brightness(100%)}
 }
