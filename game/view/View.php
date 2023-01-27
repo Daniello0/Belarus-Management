@@ -5,7 +5,8 @@
 </head>
 <body>
 <?php
-require "MainCSS.php";
+require_once "MainCSS.php";
+require "RadioJS.php";
 ?>
 <style>
 
@@ -275,29 +276,21 @@ l7 57 -32 0 c-41 0 -48 21 -23 62 18 29 20 45 15 133 -5 91 -3 107 22 173 14
         </g>
     </svg></a>
 </div>
-<div class="StatRB">
-    <h1>Статистика Республики Беларусь</h1>
-    <textarea class="TA_StatRB"></textarea>
-</div>
 <div class="Changes">
-    <h1>Изменения</h1>
-    <input type="radio" name="changes" id="vrpID">ВРП(млн. руб.)<br />
-    <input type="radio" name="changes" id="vrp_for_populationID">ВРП на душу населения(руб.)<br />
-    <input type="radio" name="changes" id="populationID">Трудоспособное население(чел.)<br />
-    <b>Изменить на:</b><input type="text" name="value">
-</div>
-<div class="StatREG">
-    <h1>Статистика области</h1>
-    <textarea class="TA_StatREG"></textarea>
+    <form method="post">
+        <h1>Изменения</h1>
+        <input type="radio" checked="checked" value="vrp" name="changes" id="vrpID">ВРП(млн. руб.)<br />
+        <input type="radio" name="changes" value="vrp_for_population" id="vrp_for_populationID">ВРП на душу населения(руб.)<br />
+        <input type="radio" name="changes" value="population" id="populationID">Трудоспособное население(чел.)<br />
+        <b>Изменить на:</b><input type="text" name="value">
+        <input type="submit" class="ApplyChanges" name="ApplyChanges" value="Применить изменения">
+    </form>
 </div>
 <div class="LastChanges">
     <h1>Последние изменения</h1>
     <textarea class="TA_LastChanges"></textarea>
 </div>
 <div class="Submit">
-    <form method="post">
-        <input type="submit" class="ApplyChanges" name="ApplyChanges" value="Применить изменения">
-    </form>
     <form method="get">
         <input type="submit" class="RebootButton" name="Reboot" value="Перезапустить">
     </form>
@@ -305,7 +298,7 @@ l7 57 -32 0 c-41 0 -48 21 -23 62 18 29 20 45 15 133 -5 91 -3 107 22 173 14
         <input type="submit" value="Показать карту" class="ShowMap">
     </form>
     <form method="post">
-        <input type="submit" value="Применить сортировку" name="ApplySort" class="ApplySort">
+        <input type="button" value="Применить сортировку" onclick="func1()" name="ApplySort" class="ApplySort">
     </form>
 </div>
 <?php
@@ -316,9 +309,13 @@ use StatGrodno as Grodno;
 use StatMinsk as Minsk;
 use StatMogilev as Mogilev;
 use StatVitebsk as Vitebsk;
-if (@$_REQUEST['ApplySort']) {
-    echo "YES ";
-    if (@$_REQUEST['vrpID']) echo "vrp on";
+class Dumper
+{
+    public static function Dumper($value) {
+        echo "<pre>";
+        var_dump($value);
+        echo "</pre>";
+    }
 }
 class vrp
 {
@@ -464,6 +461,142 @@ class workingPopulationCLASS
         return $result;
     }
 }
+if (@$_REQUEST['ApplyChanges'])
+{
+    if ((float)@$_REQUEST['value'] || (int)@$_REQUEST['value']) {
+        if (@$_REQUEST['changes'] == "vrp") {
+            echo "1 ";
+            if ($_SERVER['REQUEST_URI'] == "/game/model/brest.php") {
+                echo "brest";
+                (int)Brest::$vrp = Brest::$vrp + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/vitebsk.php") {
+                echo "vitebsk";
+                (int)Vitebsk::$vrp = Vitebsk::$vrp + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/gomel.php") {
+                echo "gomel";
+                (int)Gomel::$vrp = Gomel::$vrp + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/grodno.php") {
+                echo "grodno";
+                (int)Grodno::$vrp = Grodno::$vrp + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/minsk.php") {
+                echo "minsk";
+                (int)Minsk::$vrp = Minsk::$vrp + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/mogilev.php") {
+                echo "mogilev";
+                (int)Mogilev::$vrp = Mogilev::$vrp + @$_REQUEST['value'];
+            }
+        }
+        if (@$_REQUEST['changes'] == "vrp_for_population") {
+            echo "2 ";
+            if ($_SERVER['REQUEST_URI'] == "/game/model/brest.php") {
+                echo "brest";
+                (int)Brest::$vrp_for_population = Brest::$vrp_for_population + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/vitebsk.php") {
+                echo "vitebsk";
+                (int)Vitebsk::$vrp_for_population = Vitebsk::$vrp_for_population + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/gomel.php") {
+                echo "gomel";
+                (int)Gomel::$vrp_for_population = Gomel::$vrp_for_population + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/grodno.php") {
+                echo "grodno";
+                (int)Grodno::$vrp_for_population = Grodno::$vrp_for_population + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/minsk.php") {
+                echo "minsk";
+                (int)Minsk::$vrp_for_population = Minsk::$vrp_for_population + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/mogilev.php") {
+                echo "mogilev";
+                (int)Mogilev::$vrp_for_population = Mogilev::$vrp_for_population + @$_REQUEST['value'];
+            }
+        }
+        if (@$_REQUEST['changes'] == "population") {
+            echo "3 ";
+            if ($_SERVER['REQUEST_URI'] == "/game/model/brest.php") {
+                echo "brest";
+                (int)Brest::$working_population = Brest::$working_population + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/vitebsk.php") {
+                echo "vitebsk";
+                (int)Vitebsk::$working_population = Vitebsk::$working_population + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/gomel.php") {
+                echo "gomel";
+                (int)Gomel::$working_population = Gomel::$working_population + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/grodno.php") {
+                echo "grodno";
+                (int)Grodno::$working_population = Grodno::$working_population + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/minsk.php") {
+                echo "minsk";
+                (int)Minsk::$working_population = Minsk::$working_population + @$_REQUEST['value'];
+            }
+            if ($_SERVER['REQUEST_URI'] == "/game/model/mogilev.php") {
+                echo "mogilev";
+                (int)Mogilev::$working_population = Mogilev::$working_population + @$_REQUEST['value'];
+            }
+        }
+    }
+}
+require "game/view/JavaScript.php";
 ?>
+<div class="StatREG">
+    <h1>Статистика области</h1>
+    <textarea name="TA_StatREG" class="TA_StatREG">
+        <?php
+        if ($_SERVER['REQUEST_URI'] == "/game/model/brest.php") {
+            echo "ВРП: ".Brest::$vrp." млн.руб\n";
+            echo "ВРП на душу населения: ".Brest::$vrp_for_population." руб.\n";
+            echo "Трудоспособное население: ".Brest::$working_population." чел.\n";
+        }
+        if ($_SERVER['REQUEST_URI'] == "/game/model/vitebsk.php") {
+            echo "ВРП: ".Vitebsk::$vrp." млн.руб\n";
+            echo "ВРП на душу населения: ".Vitebsk::$vrp_for_population." руб.\n";
+            echo "Трудоспособное население: ".Vitebsk::$working_population." чел.\n";
+        }
+        if ($_SERVER['REQUEST_URI'] == "/game/model/gomel.php") {
+            echo "ВРП: ".Gomel::$vrp." млн.руб\n";
+            echo "ВРП на душу населения: ".Gomel::$vrp_for_population." руб.\n";
+            echo "Трудоспособное население: ".Gomel::$working_population." чел.\n";
+        }
+        if ($_SERVER['REQUEST_URI'] == "/game/model/grodno.php") {
+            echo "ВРП: ".Grodno::$vrp." млн.руб\n";
+            echo "ВРП на душу населения: ".Grodno::$vrp_for_population." руб.\n";
+            echo "Трудоспособное население: ".Grodno::$working_population." чел.\n";
+        }
+        if ($_SERVER['REQUEST_URI'] == "/game/model/minsk.php") {
+            echo "ВРП: ".Minsk::$vrp." млн.руб\n";
+            echo "ВРП на душу населения: ".Minsk::$vrp_for_population." руб.\n";
+            echo "Трудоспособное население: ".Minsk::$working_population." чел.\n";
+        }
+        if ($_SERVER['REQUEST_URI'] == "/game/model/mogilev.php") {
+            echo "ВРП: ".Mogilev::$vrp." млн.руб\n";
+            echo "ВРП на душу населения: ".Mogilev::$vrp_for_population." руб.\n";
+            echo "Трудоспособное население: ".Mogilev::$working_population." чел.\n";
+        }
+        ?>
+    </textarea>
+</div>
+<div class="StatRB">
+    <h1>Статистика Республики Беларусь</h1>
+    <textarea name="TA_StatRB" class="TA_StatRB">
+        <?php
+            echo "ВВП: ".Brest::$vrp+Vitebsk::$vrp+Gomel::$vrp+Grodno::$vrp+Minsk::$vrp+Mogilev::$vrp." млн.руб\n";
+            echo "ВВП на душу населения: ".(Brest::$vrp_for_population+Vitebsk::$vrp_for_population+Gomel::$vrp_for_population
+                +Grodno::$vrp_for_population+Minsk::$vrp_for_population+Mogilev::$vrp_for_population)/2 ."руб\n";
+            echo "Трудоспособное население: ".Brest::$working_population+Vitebsk::$working_population+Gomel::$working_population
+                +Grodno::$working_population+Minsk::$working_population+Mogilev::$working_population." чел\n";
+        ?>
+    </textarea>
+</div>
 </body>
 </html>

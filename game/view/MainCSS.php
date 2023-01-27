@@ -27,11 +27,11 @@ $color_3 = $working_population::Color();
 }
 .ApplyChanges {
     position: absolute;
-    height: 47px;
+    left: 140px;
     width: 133px;
+    height: 47px;
     font-size: 11px;
-    left: 1252px;
-    bottom: 570px;
+    bottom: -15px;
 }
 .RebootButton {
     height: 70px;
@@ -120,22 +120,22 @@ $color_3 = $working_population::Color();
     bottom: 338px;
 }
 .VitebskUpdate:hover {
-    filter: contrast(60%);
+    filter: brightness(60%);
 }
 .MogilevUpdate:hover {
-    filter: contrast(60%);
+    filter: brightness(60%);
 }
 .GomelUpdate:hover {
-    filter: contrast(60%);
+    filter: brightness(60%);
 }
 .BrestUpdate:hover {
-    filter: contrast(60%);
+    filter: brightness(60%);
 }
 .MinskUpdate:hover {
-    filter: contrast(60%);
+    filter: brightness(60%);
 }
 .GrodnoUpdate:hover {
-    filter: contrast(60%);
+    filter: brightness(60%);
 }
 .VitebskUpdate {
     position: relative;

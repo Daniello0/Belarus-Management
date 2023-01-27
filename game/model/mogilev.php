@@ -5,6 +5,7 @@
 set_include_path("C:/Belarus-Management/");
 require "game/view/MainCSS.php";
 require_once "game/view/View.php";
+require "game/view/JavaScript.php";
 if ($_SERVER['REQUEST_URI'] == "/game/model/mogilev.php") {
     echo "<link rel='stylesheet' href='/game/view/Mogilev.css'>";
 }
