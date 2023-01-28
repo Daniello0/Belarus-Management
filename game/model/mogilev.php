@@ -11,9 +11,12 @@ if ($_SERVER['REQUEST_URI'] == "/game/model/mogilev.php") {
 }
 class StatMogilev
 {
-    static $vrp = 13418.8;
-    static $vrp_for_population = 13314.4;
-    static $working_population = 577654;
+    static $default_vrp = 13325250330;
+    static $default_vrp_for_population = 13314;
+    static $default_population = 1000845;
+    static $vrp = 13325250330;
+    static $vrp_for_population = 13314;
+    static $working_population = 1000845;
 }
 $VRP = new vrp();
 $color = $VRP::Color();
