@@ -11,9 +11,12 @@ if ($_SERVER['REQUEST_URI'] == "/game/model/vitebsk.php") {
 }
 class StatVitebsk
 {
-    static $vrp = 15036.8;
-    static $vrp_for_population = 13521.1;
-    static $working_population = 635424;
+    static $default_vrp = 14924925993;
+    static $default_vrp_for_population = 13521;
+    static $default_population = 1103833;
+    static $vrp = 14924925993;
+    static $vrp_for_population = 13521;
+    static $working_population = 1103833;
 }
 $VRP = new vrp();
 $color = $VRP::Color();

@@ -11,9 +11,12 @@ if ($_SERVER['REQUEST_URI'] == "/game/model/minsk.php") {
 }
 class StatMinsk
 {
-    static $vrp = 32128.7;
+    static $default_vrp = 32045801565;
+    static $default_vrp_for_population = 21863;
+    static $default_population = 1465755;
+    static $vrp = 32045801565;
     static $vrp_for_population = 21863;
-    static $working_population = 474245;
+    static $working_population = 1465755;
 }
 $VRP = new vrp();
 $color = $VRP::Color();
