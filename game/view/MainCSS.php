@@ -9,6 +9,15 @@ $working_population = new workingPopulationCLASS();
 $color_3 = $working_population::Color();
 ?>
 <style>
+    .TA_LastChanges {
+        font-size: 20px;
+    }
+    .TA_StatREG {
+        font-size: 20px;
+    }
+    .TA_StatRB {
+        font-size: 20px;
+    }
 .ShowMap {
     position: absolute;
     height: 70px;
