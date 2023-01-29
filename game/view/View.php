@@ -610,7 +610,10 @@ require "game/view/JavaScript.php";
             echo "ВВП на душу населения: ".(int)((Brest::$vrp_for_population+Vitebsk::$vrp_for_population+Gomel::$vrp_for_population
                 +Grodno::$vrp_for_population+Minsk::$vrp_for_population+Mogilev::$vrp_for_population)/2) ."руб\n";
             echo "Население: ".(int)(Brest::$working_population+Vitebsk::$working_population+Gomel::$working_population
-                +Grodno::$working_population+Minsk::$working_population+Mogilev::$working_population)." чел\n";
+                +Grodno::$working_population+Minsk::$working_population+Mogilev::$working_population)." чел\n\n";
+            echo "ВВП - макроэкономический показатель, отражающий рыночную стоимость всех конечных товаров и услуг\n";
+            echo "ВВП на душу населения - это показатель уровня экономической активности и качества жизни населения в отдельных странах и регионах за определённый период\n";
+            echo "Население - совокупность людей, живущих в пределах конкретной территории\n";
         ?>
     </textarea>
 </div>
@@ -620,28 +623,44 @@ require "game/view/JavaScript.php";
         <?php
             if ($_SERVER['REQUEST_URI'] == "/game/model/brest.php" && @$_REQUEST['ApplyChanges']) {
                 echo "Изменения в Брестской области\n";
-                echo "ВРП: Изменилось на ".Brest::$vrp - Brest::$default_vrp." руб (".(Brest::$vrp / Brest::$default_vrp)*100 ."%)";
+                echo "ВРП: Изменился на ".(int)(Brest::$vrp - Brest::$default_vrp)." руб (".(Brest::$vrp / Brest::$default_vrp)*100 ."%)\n";
+                echo "ВРП на душу населения: Изменился на ".(int)(Brest::$vrp_for_population - Brest::$default_vrp_for_population)." руб (".(Brest::$vrp_for_population / Brest::$default_vrp_for_population)
+                *100 ."%)\n";
+                echo "Население: Изменилось на ".(int)(Brest::$working_population - Brest::$default_population)." чел (".(Brest::$working_population / Brest::$default_population)*100 ."%)\n";
             }
             if ($_SERVER['REQUEST_URI'] == "/game/model/vitebsk.php" && @$_REQUEST['ApplyChanges']) {
                 echo "Изменения в Витебской области\n";
-                echo "ВРП: Изменилось на ".Vitebsk::$vrp - Vitebsk::$default_vrp." руб (".(Vitebsk::$vrp / Vitebsk::$default_vrp)*100 ."%)";
+                echo "ВРП: Изменился на ".(int)(Vitebsk::$vrp - Vitebsk::$default_vrp)." руб (".(Vitebsk::$vrp / Vitebsk::$default_vrp)*100 ."%)\n";
+                echo "ВРП на душу населения: Изменился на ".(int)(Vitebsk::$vrp_for_population - Vitebsk::$default_vrp_for_population)." руб (".(Vitebsk::$vrp_for_population / Vitebsk::$default_vrp_for_population)
+                    *100 ."%)\n";
+                echo "Население: Изменилось на ".(int)(Vitebsk::$working_population - Vitebsk::$default_population)." чел (".(Vitebsk::$working_population / Vitebsk::$default_population)*100 ."%)\n";
             }
             if ($_SERVER['REQUEST_URI'] == "/game/model/gomel.php" && @$_REQUEST['ApplyChanges']) {
                 echo "Изменения в Гомельской области\n";
-                echo "ВРП: Изменилось на ".Gomel::$vrp - Gomel::$default_vrp." руб (".(Gomel::$vrp / Gomel::$default_vrp)*100 ."%)";
+                echo "ВРП: Изменился на ".(int)(Gomel::$vrp - Gomel::$default_vrp)." руб (".(Gomel::$vrp / Gomel::$default_vrp)*100 ."%)\n";
+                echo "ВРП на душу населения: Изменился на ".(int)(Gomel::$vrp_for_population - Gomel::$default_vrp_for_population)." руб (".(Gomel::$vrp_for_population / Gomel::$default_vrp_for_population)
+                    *100 ."%)\n";
+                echo "Население: Изменилось на ".(int)(Gomel::$working_population - Gomel::$default_population)." чел (".(Gomel::$working_population / Gomel::$default_population)*100 ."%)\n";
             }
             if ($_SERVER['REQUEST_URI'] == "/game/model/grodno.php" && @$_REQUEST['ApplyChanges']) {
                 echo "Изменения в Гродненской области\n";
-                echo "ВРП: Изменилось на ".Grodno::$vrp - Grodno::$default_vrp." руб (".(Grodno::$vrp / Grodno::$default_vrp)*100 ."%)";
+                echo "ВРП: Изменился на ".(int)(Grodno::$vrp - Grodno::$default_vrp)." руб (".(Grodno::$vrp / Grodno::$default_vrp)*100 ."%)\n";
+                echo "ВРП на душу населения: Изменился на ".(int)(Grodno::$vrp_for_population - Grodno::$default_vrp_for_population)." руб (".(Grodno::$vrp_for_population / Grodno::$default_vrp_for_population)
+                    *100 ."%)\n";
+                echo "Население: Изменилось на ".(int)(Grodno::$working_population - Grodno::$default_population)." чел (".(Grodno::$working_population / Grodno::$default_population)*100 ."%)\n";
             }
             if ($_SERVER['REQUEST_URI'] == "/game/model/minsk.php" && @$_REQUEST['ApplyChanges']) {
                 echo "Изменения в Минской области\n";
-                echo "ВРП: Изменилось на ".Minsk::$vrp - Minsk::$default_vrp." руб (".(Minsk::$vrp / Minsk::$default_vrp)*100 ."%)";
-            }
+                echo "ВРП: Изменился на ".(int)(Minsk::$vrp - Minsk::$default_vrp)." руб (".(Minsk::$vrp / Minsk::$default_vrp)*100 ."%)\n";
+                echo "ВРП на душу населения: Изменился на ".(int)(Minsk::$vrp_for_population - Minsk::$default_vrp_for_population)." руб (".(Minsk::$vrp_for_population / Minsk::$default_vrp_for_population)
+                    *100 ."%)\n";
+                echo "Население: Изменилось на ".(int)(Minsk::$working_population - Minsk::$default_population)." чел (".(Minsk::$working_population / Minsk::$default_population)*100 ."%)\n";            }
             if ($_SERVER['REQUEST_URI'] == "/game/model/mogilev.php" && @$_REQUEST['ApplyChanges']) {
                 echo "Изменения в Могилевской области\n";
-                echo "ВРП: Изменилось на ".Mogilev::$vrp - Mogilev::$default_vrp." руб (".(Mogilev::$vrp / Mogilev::$default_vrp)*100 ."%)";
-            }
+                echo "ВРП: Изменился на ".(int)(Mogilev::$vrp - Mogilev::$default_vrp)." руб (".(Mogilev::$vrp / Mogilev::$default_vrp)*100 ."%)\n";
+                echo "ВРП на душу населения: Изменился на ".(int)(Mogilev::$vrp_for_population - Mogilev::$default_vrp_for_population)." руб (".(Mogilev::$vrp_for_population / Mogilev::$default_vrp_for_population)
+                    *100 ."%)\n";
+                echo "Население: Изменилось на ".(int)(Mogilev::$working_population - Mogilev::$default_population)." чел (".(Mogilev::$working_population / Mogilev::$default_population)*100 ."%)\n";            }
         ?>
     </textarea>
 </div>
